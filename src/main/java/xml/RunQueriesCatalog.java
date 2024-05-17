@@ -1,8 +1,5 @@
 package xml;
 
-import java.io.*;
-import java.util.ArrayList;
-
 import org.basex.core.*;
 import org.basex.core.cmd.*;
 import org.basex.io.serial.*;
@@ -10,6 +7,9 @@ import org.basex.query.*;
 import org.basex.query.iter.*;
 import org.basex.query.value.*;
 import org.basex.query.value.item.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * This example demonstrates three variants how XQuery expressions can be

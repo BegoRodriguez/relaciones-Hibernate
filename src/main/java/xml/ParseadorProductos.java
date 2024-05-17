@@ -21,6 +21,8 @@ import java.util.Iterator;
 
 public class ParseadorProductos {
 
+
+
     public static ArrayList<Producto> leerXMLConDOM(){
         // Definimos un array de productos por si queremos trabajar con ellos en nuestra app
         ArrayList<Producto> productos = new ArrayList<Producto>();
@@ -81,7 +83,17 @@ public class ParseadorProductos {
         return productos;
     }
 
-    public static void escribirXMLconDOM(ArrayList<Producto> productos) {
+    /**
+     * <p>Esta es una descripcion de un metodo
+     * <a href="https://www.discoduroderoer.es/crear-xml-en-java">Enlace a la web de referencia</a>
+     * </p>
+     *
+     * @param productos la lista de productos a parsear
+     * @return devuelve un 1 si se ha escrito el archivo correctamente
+     * @see <a href="https://www.discoduroderoer.es/crear-xml-en-java">Otra web</a>
+     */
+
+    public static int escribirXMLconDOM(ArrayList<Producto> productos) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -130,6 +142,7 @@ public class ParseadorProductos {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return 1;
     }
 
     public static void persistirenBD(ArrayList<Producto> productos) {

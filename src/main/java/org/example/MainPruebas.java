@@ -3,51 +3,43 @@ package org.example;
 import dao.DAOGenerico;
 import modelo.Cliente;
 import modelo.Producto;
+import modelo.Proveedor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static xml.ParseadorProductos.*;
+import static xml.ParseadorProductos.escribirXMLconDOM;
+import static xml.ParseadorProductos.leerXMLConDOM;
 
 public class MainPruebas {
 
     public static void main(String[] args) {
-        ArrayList<Producto> productos = leerXMLConDOM();
-        escribirXMLconDOM(productos);
-        //persistirenBD(productos); //No quiero hacerlo cada vez solo una para llenar la BD
 
-        /*DAOProducto daoProducto = new DAOProducto();
-        // Ejemplo consulta
-        System.out.println(daoProducto.findById(1).getNombre());
-        System.out.println(daoProducto.findById(2).getNombre());
+        DAOGenerico dao = new DAOGenerico();
 
-        // Ejemplo guardar y actualizar
-        //daoProducto.save(new Producto("Camiseta de manga larga",29.99,"Ropa",8));
-        Producto pu = daoProducto.findById(6);
-        pu.setUnidades(6);
-        daoProducto.update(pu);
-
-        // Ejemplo listado
-        List<Producto> listaProductos = daoProducto.findAll();
+        List<Producto> listaProductos = dao.getProductosDeCliente(1);
         Iterator<Producto> it = listaProductos.iterator();
         while (it.hasNext()) {
             Producto p = it.next();
             System.out.println(p.getCodigo()+ " "+ p.getNombre());
-        } */
+        }
 
-        DAOGenerico dao = new DAOGenerico();
-        // Ejemplo genericos
-        Cliente ccp = (Cliente) dao.findById(Cliente.class,1);
+        listaProductos = dao.getProductosDeProveedor(2);
+        Iterator<Producto> it2 = listaProductos.iterator();
+        while (it2.hasNext()) {
+            Producto p = it2.next();
+            System.out.println(p.getCodigo()+ " "+ p.getNombre());
+        }
 
-        Producto pg = (Producto) dao.findById(Producto.class,2);
-        System.out.println("Con genericos :" + pg.getNombre());
 
-        ccp.addProducto(pg);
-        dao.update(ccp);
-
-        // Ahora quiero que el cliente 1 pida productos 1 y 2 y guardarlos
-
+        List<Proveedor> listaProvedores = dao.findByNombre("Zara");
+        //List<Proveedor> listaProvedores = dao.getProveedoresPorNombre("Zara");
+        Iterator<Proveedor> it3 = listaProvedores.iterator();
+        while (it3.hasNext()) {
+            Proveedor p = it3.next();
+            System.out.println(p.getIdProveedor()+ " "+ p.getNombre());
+        }
 
     }
 }

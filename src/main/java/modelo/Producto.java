@@ -1,11 +1,11 @@
 package modelo;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 
 /** POJO (Plain Old Java Objet) para gestionar los productos en la aplicacion
@@ -14,6 +14,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "productos")
 public class Producto implements Serializable {
+
+    /**
+     * Campo autoincremental entero en nuestra base de datos
+     */
 
     @Id
     @GenericGenerator(name="incrementId",strategy="increment") @GeneratedValue(generator="incrementId")
@@ -25,6 +29,11 @@ public class Producto implements Serializable {
 
     @ManyToMany(mappedBy = "productos")  // Como se llame el atributo en la clase que asociemos
     private List<Cliente> clientes = new ArrayList<>();
+
+    /* Un proveedor tendrá varios productos así que aquí tenemos un único proveedor */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_proveedor")
+    private Proveedor proveedor;
 
     /* Como es autoincremental no asignamos codigo para persistir en Hibernate */
     public Producto(String nombre, double precio, String categoria, int unidades) {

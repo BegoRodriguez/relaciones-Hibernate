@@ -1,12 +1,12 @@
 package xml;
 
-import java.io.*;
-import java.util.ArrayList;
-
 import org.basex.core.*;
 import org.basex.query.*;
 import org.basex.query.iter.*;
 import org.basex.query.value.item.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Ejemplo simple de consulta con BaseX

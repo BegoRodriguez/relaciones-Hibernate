@@ -1,9 +1,12 @@
 package dao;
 
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import modelo.Cliente;
 import modelo.Producto;
+import modelo.Proveedor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -27,6 +30,7 @@ public class DAOGenerico {
         ///****** Ojo!!!! Aquí tendremos que añadir tantas clases como tengamos en la app
         configuration.addAnnotatedClass(Cliente.class);
         configuration.addAnnotatedClass(Producto.class);
+        configuration.addAnnotatedClass(Proveedor.class);
         sessionFactory = configuration.buildSessionFactory();
     }
 
@@ -36,7 +40,6 @@ public class DAOGenerico {
 
         // Inicializamos Objecto Sesión
         Session session = sessionFactory.openSession();
-        Object ret = session.get(t, id);
         return session.get(t, id);
     }
 
@@ -83,4 +86,57 @@ public class DAOGenerico {
         return (List<T>) session.createQuery(criteria).getResultList();
 
     }
+
+    /* Conseguir todos los productos de un cliente */
+    public List<Producto> getProductosDeCliente (int clienteId) {
+
+        Session session = sessionFactory.openSession();
+        TypedQuery<Producto> query
+                = session.createQuery(
+                "SELECT c.productos FROM Cliente c WHERE c.id_cliente = :clienteId ", Producto.class);
+
+        query.setParameter("clienteId", clienteId);
+        return query.getResultList();
+    }
+
+    /* Conseguir todos los productos de un cliente */
+    public List<Producto> getProductosDeProveedor (int proveedorId) {
+
+        Session session = sessionFactory.openSession();
+
+        TypedQuery<Producto> query
+                = session.createQuery(
+                "SELECT p.productos FROM Proveedor p WHERE p.idProveedor = :proveedorId ", Producto.class);
+        /* Ojo!!! el idProveedor el mismo que en la clase;*/
+        query.setParameter("proveedorId", proveedorId);
+        return query.getResultList();
+    }
+
+    public List<Proveedor> getProveedoresPorNombre (String nombre) {
+
+        Session session = sessionFactory.openSession();
+
+        TypedQuery<Proveedor> query
+                = session.createQuery(
+                "SELECT p FROM Proveedor p WHERE p.nombre = :nombre ", Proveedor.class);
+        /* Ojo!!! el idProveedor el mismo que en la clase;*/
+        query.setParameter("nombre", nombre);
+        return query.getResultList();
+    }
+
+    public List<Proveedor> findByNombre(String nombre) {
+        Session session = sessionFactory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Proveedor> criteria = builder.createQuery(Proveedor.class);
+        Root<Proveedor> root = criteria.from(Proveedor.class);
+        criteria.select(root).where(builder.equal(root.get("nombre"), nombre));
+
+        List<Proveedor> proveedors = session.createQuery(criteria).getResultList();
+
+        session.close();
+
+        return proveedors;
+    }
+
+
 }
