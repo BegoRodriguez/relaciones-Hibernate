@@ -27,15 +27,25 @@ public class Producto implements Serializable {
     @Column(name = "categoria") private String categoria;
     @Column(name = "unidades") private int unidades;
 
+
+
     @ManyToMany(mappedBy = "productos")  // Como se llame el atributo en la clase que asociemos
     private List<Cliente> clientes = new ArrayList<>();
 
     /* Un proveedor tendrá varios productos así que aquí tenemos un único proveedor */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_proveedor")
+    @JoinColumn(name = "id_proveedor") // Como se llame en la tabla de productos
     private Proveedor proveedor;
 
     /* Como es autoincremental no asignamos codigo para persistir en Hibernate */
+    public Producto(String nombre, double precio, String categoria, int unidades, Proveedor id_proveedor) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.unidades = unidades;
+        this.proveedor = id_proveedor;
+    }
+
     public Producto(String nombre, double precio, String categoria, int unidades) {
         this.nombre = nombre;
         this.precio = precio;
@@ -58,6 +68,23 @@ public class Producto implements Serializable {
     public void addCliente(Cliente cliente) {
         //producto.addCliente(this); // En el producto añadimos a su lista este Cliente
         clientes.add(cliente);
+    }
+
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
     public void removeCliente(Cliente cliente) {

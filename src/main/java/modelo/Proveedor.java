@@ -16,6 +16,7 @@ public class Proveedor {
     @Column(name = "id_proveedor") private int idProveedor;
     @Column(name = "nombre") private String nombre;
 
+    // En mappedBy hay que poner como se llame el atributo en la clase que asociemos
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Producto> productos;
 

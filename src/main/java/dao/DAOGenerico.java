@@ -87,7 +87,9 @@ public class DAOGenerico {
 
     }
 
-    /* Conseguir todos los productos de un cliente */
+    /** Conseguir todos los productos de un cliente
+     * @see: <a hRef="https://www.baeldung.com/jpa-join-types">Enlace del que he tomado la información</a>
+     * */
     public List<Producto> getProductosDeCliente (int clienteId) {
 
         Session session = sessionFactory.openSession();
@@ -99,7 +101,7 @@ public class DAOGenerico {
         return query.getResultList();
     }
 
-    /* Conseguir todos los productos de un cliente */
+    /** Conseguir todos los productos de un proveedor */
     public List<Producto> getProductosDeProveedor (int proveedorId) {
 
         Session session = sessionFactory.openSession();
@@ -119,7 +121,6 @@ public class DAOGenerico {
         TypedQuery<Proveedor> query
                 = session.createQuery(
                 "SELECT p FROM Proveedor p WHERE p.nombre = :nombre ", Proveedor.class);
-        /* Ojo!!! el idProveedor el mismo que en la clase;*/
         query.setParameter("nombre", nombre);
         return query.getResultList();
     }
